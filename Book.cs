@@ -30,7 +30,7 @@ namespace BookLibraryManager
         //  ToString method 
         public override string ToString()
         {
-            return $"ID: {Id}\tTitle: {Title}\tAuthor: {Author}\tIsBorrowed: {IsBorrowed}";
+            return $"| {Id,-5} | {Title,-30} | {Author,-20} | {IsBorrowed,-10} |";
         }
 
 
