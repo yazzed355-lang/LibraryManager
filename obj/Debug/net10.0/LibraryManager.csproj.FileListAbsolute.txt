@@ -12,3 +12,4 @@
 /home/yazeid/Documents/C_Sharp/LibraryManager/obj/Debug/net10.0/LibraryManager.pdb
 /home/yazeid/Documents/C_Sharp/LibraryManager/obj/Debug/net10.0/LibraryManager.genruntimeconfig.cache
 /home/yazeid/Documents/C_Sharp/LibraryManager/obj/Debug/net10.0/ref/LibraryManager.dll
+/home/yazeid/Documents/C_Sharp/LibraryManager/obj/Debug/net10.0/LibraryManager.sourcelink.json
