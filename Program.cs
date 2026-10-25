@@ -1,7 +1,16 @@
 ﻿using BookLibraryManager;
 
+
 var bookList = new List<Book>();
 bool running = true;
+// Add some sample books to the library
+
+bookList.Add(new Book("The Great Gatsby", "F. Scott Fitzgerald"));
+bookList.Add(new Book("To Kill a Mockingbird", "Harper Lee"));
+bookList.Add(new Book("1984", "George Orwell"));
+bookList.Add(new Book("Pride and Prejudice", "Jane Austen"));
+bookList.Add(new Book("The Catcher in the Rye", "J.D. Salinger"));
+
 
 void PrintHeader()
 {
@@ -94,6 +103,9 @@ void DisplayMenu()
     Console.WriteLine("0. Exit");
     Console.Write("Enter your choice: ");
 }
+
+
+
 
 while (running)
 {
