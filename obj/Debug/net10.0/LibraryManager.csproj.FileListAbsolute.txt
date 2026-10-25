@@ -1,0 +1,14 @@
+/home/yazeid/Documents/C_Sharp/LibraryManager/bin/Debug/net10.0/LibraryManager
+/home/yazeid/Documents/C_Sharp/LibraryManager/bin/Debug/net10.0/LibraryManager.deps.json
+/home/yazeid/Documents/C_Sharp/LibraryManager/bin/Debug/net10.0/LibraryManager.runtimeconfig.json
+/home/yazeid/Documents/C_Sharp/LibraryManager/bin/Debug/net10.0/LibraryManager.dll
+/home/yazeid/Documents/C_Sharp/LibraryManager/bin/Debug/net10.0/LibraryManager.pdb
+/home/yazeid/Documents/C_Sharp/LibraryManager/obj/Debug/net10.0/LibraryManager.GeneratedMSBuildEditorConfig.editorconfig
+/home/yazeid/Documents/C_Sharp/LibraryManager/obj/Debug/net10.0/LibraryManager.AssemblyInfoInputs.cache
+/home/yazeid/Documents/C_Sharp/LibraryManager/obj/Debug/net10.0/LibraryManager.AssemblyInfo.cs
+/home/yazeid/Documents/C_Sharp/LibraryManager/obj/Debug/net10.0/LibraryManager.csproj.CoreCompileInputs.cache
+/home/yazeid/Documents/C_Sharp/LibraryManager/obj/Debug/net10.0/LibraryManager.dll
+/home/yazeid/Documents/C_Sharp/LibraryManager/obj/Debug/net10.0/refint/LibraryManager.dll
+/home/yazeid/Documents/C_Sharp/LibraryManager/obj/Debug/net10.0/LibraryManager.pdb
+/home/yazeid/Documents/C_Sharp/LibraryManager/obj/Debug/net10.0/LibraryManager.genruntimeconfig.cache
+/home/yazeid/Documents/C_Sharp/LibraryManager/obj/Debug/net10.0/ref/LibraryManager.dll
