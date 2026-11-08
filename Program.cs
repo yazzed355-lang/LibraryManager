@@ -1,24 +1,26 @@
 ﻿using BookLibraryManager;
 
-
-var bookList = new List<Book>();
+ILibraryRepository repository = new JsonLibraryRepository("library.json");
 bool running = true;
-// Add some sample books to the library
 
-bookList.Add(new Book("The Great Gatsby", "F. Scott Fitzgerald"));
-bookList.Add(new Book("To Kill a Mockingbird", "Harper Lee"));
-bookList.Add(new Book("1984", "George Orwell"));
-bookList.Add(new Book("Pride and Prejudice", "Jane Austen"));
-bookList.Add(new Book("The Catcher in the Rye", "J.D. Salinger"));
-
+// Add sample books only when the file is empty
+if ((await repository.GetAllBooksAsync()).Count == 0)
+{
+    await repository.AddBookAsync(new Book("The Great Gatsby", "F. Scott Fitzgerald"));
+    await repository.AddBookAsync(new Book("To Kill a Mockingbird", "Harper Lee"));
+    await repository.AddBookAsync(new Book("1984", "George Orwell"));
+    await repository.AddBookAsync(new Book("Pride and Prejudice", "Jane Austen"));
+    await repository.AddBookAsync(new Book("The Catcher in the Rye", "J.D. Salinger"));
+}
 
 void PrintHeader()
 {
     Console.WriteLine($"| {"ID",-5} | {"Title",-30} | {"Author",-20} | {"IsBorrowed",-10} |");
     Console.WriteLine(new string('-', 76));
 }
+
 // Add a new book from user input
-void AddBookFromInput()
+async Task AddBookFromInput()
 {
     Console.Write("Enter title: ");
     var title = Console.ReadLine();
@@ -28,23 +30,28 @@ void AddBookFromInput()
     if (string.IsNullOrWhiteSpace(title) || string.IsNullOrWhiteSpace(author))
         throw new LibraryException("Title and author cannot be empty.");
 
-    bookList.Add(new Book(title, author));
+    await repository.AddBookAsync(new Book(title, author));
     Console.WriteLine("Book added.");
 }
+
 // Display all books in the library
-void DisplayBooks()
+async Task DisplayBooks()
 {
+    var books = await repository.GetAllBooksAsync();
+
     PrintHeader();
-    foreach (var book in bookList)
+    foreach (var book in books)
         Console.WriteLine(book);
 }
+
 // Search for books by title or author
-void SearchBooks()
+async Task SearchBooks()
 {
     Console.Write("Search: ");
     string keyword = Console.ReadLine() ?? "";
 
-    var results = bookList
+    var books = await repository.GetAllBooksAsync();
+    var results = books
         .Where(b => b.Title.Contains(keyword, StringComparison.OrdinalIgnoreCase)
                  || b.Author.Contains(keyword, StringComparison.OrdinalIgnoreCase))
         .ToList();
@@ -59,36 +66,34 @@ void SearchBooks()
     foreach (var book in results)
         Console.WriteLine(book);
 }
+
 // Find a book by its ID
-Book FindById()
+async Task<Book> FindById()
 {
     Console.Write("Book id: ");
     int id = int.Parse(Console.ReadLine() ?? "");
 
-    var book = bookList.FirstOrDefault(b => b.Id == id);
+    var book = await repository.FindBookByIdAsync(id);
     if (book == null)
         throw new LibraryException("Book not found.");
 
     return book;
 }
-// Borrow a book by its ID
-void BorrowBook()
-{
-    var book = FindById();
-    if (book.IsBorrowed)
-        throw new LibraryException("This book is already borrowed.");
 
-    book.IsBorrowed = true;
+// Borrow a book by its ID
+async Task BorrowBook()
+{
+    var book = await FindById();
+    book.Borrow();
+    await repository.UpdateBookAsync(book);
     Console.WriteLine("Book borrowed.");
 }
 
-void ReturnBook()
+async Task ReturnBook()
 {
-    var book = FindById();
-    if (!book.IsBorrowed)
-        throw new LibraryException("This book was not borrowed.");
-
-    book.IsBorrowed = false;
+    var book = await FindById();
+    book.Return();
+    await repository.UpdateBookAsync(book);
     Console.WriteLine("Book returned.");
 }
 
@@ -104,9 +109,6 @@ void DisplayMenu()
     Console.Write("Enter your choice: ");
 }
 
-
-
-
 while (running)
 {
     DisplayMenu();
@@ -114,18 +116,23 @@ while (running)
 
     try
     {
-        Action action = choice switch
+        Func<Task> action = choice switch
         {
             "1" => AddBookFromInput,
             "2" => DisplayBooks,
             "3" => SearchBooks,
             "4" => BorrowBook,
             "5" => ReturnBook,
-            "0" => () => running = false,
+            "0" => () =>
+            {
+                running = false;
+                return Task.CompletedTask;
+            }
+            ,
             _ => throw new LibraryException("Invalid option.")
         };
 
-        action();
+        await action();
     }
     catch (LibraryException ex)
     {
