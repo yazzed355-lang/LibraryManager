@@ -8,31 +8,18 @@ namespace BookLibraryManager
 
     {
         private static int _nextId = 1;
+        //
         public int Id { get; private set; }
         public string Title { get; set; }
         public string Author { get; set; }
         public bool IsBorrowed { get; private set; }
         // Constructor to initialize a new book with default values
-        public Book()
-        {
-            Id = _nextId++;
-            Title = "Unknown";
-            Author = "Unknown";
-            IsBorrowed = false;
+        public Book() : this("Unknown", "Unknown") { }
 
-        }
-
-        // Constructor to initialize a new book with specified title and author
         public Book(string title, string author)
-        {
-            Id = _nextId++;
-            Title = title;
-            Author = author;
-            IsBorrowed = false;
+            : this(_nextId, title, author, false) { }
 
-        }
 
-        // Used by JSON to rebuild a saved book with its original values
         [JsonConstructor]
         public Book(int id, string title, string author, bool isBorrowed)
         {
@@ -42,7 +29,9 @@ namespace BookLibraryManager
             IsBorrowed = isBorrowed;
 
             if (id >= _nextId)
+            {
                 _nextId = id + 1;
+            }
         }
 
         public void Borrow()
