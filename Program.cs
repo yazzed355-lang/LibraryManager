@@ -1,6 +1,15 @@
-﻿using BookLibraryManager;
+﻿using Microsoft.Extensions.DependencyInjection;
+using BookLibraryManager;
 
-ILibraryRepository repository = new JsonLibraryRepository("library.json");
+var services = new ServiceCollection();
+
+string filePath = "library.json";
+
+services.AddSingleton<ILibraryRepository>(new JsonLibraryRepository(filePath));
+
+var provider = services.BuildServiceProvider();
+var repository = provider.GetRequiredService<ILibraryRepository>();
+
 bool running = true;
 
 // Add sample books only when the file is empty
